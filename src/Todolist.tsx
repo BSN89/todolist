@@ -1,32 +1,48 @@
 import React from "react";
 
+type PropsType = {
+  shapka: string;
+  body?: number;
+  tasks: TaskType[];
+};
 
-type PropsType={
-    shapka: string
-    body?: number
-}
+type TaskType = {
+  id: number;
+  title: string;
+  isDone: boolean;
+};
 
-  const Todolist=(props: PropsType)=>{
-     return (
+const Todolist = (props: PropsType) => {
+  const tasksMap = props.tasks.map((el) => {
+    return (
+      <li>
+        <input type="checkbox" checked={el.isDone} />
+        <span>{el.title}</span>
+      </li>
+    );
+  });
+  return (
     <div>
-        <h3>{props.shapka}</h3>
-        <h3>{props.body}</h3>
-        <div>
-            <input/>
-            <button>+</button>
-        </div>
-        <ul>
-            <li><input type="checkbox" checked={true}/> <span>HTML&CSS</span></li>
-            <li><input type="checkbox" checked={true}/> <span>JS</span></li>
-            <li><input type="checkbox" checked={false}/> <span>React</span></li>
-        </ul>
-        <div>
-            <button>All</button>
-            <button>Active</button>
-            <button>Completed</button>
-        </div>
-        </div>
-        )
-}
+      <h3>{props.shapka}</h3>
+      <h3>{props.body}</h3>
+      <div>
+        <input />
+        <button>+</button>
+      </div>
+      <ul>
+        {tasksMap}
+        {/*<li><input type="checkbox" checked={props.tasks[0].isDone}/> <span>{props.tasks[0].title}</span></li>*/}
+        {/*<li><input type="checkbox" checked={props.tasks[1].isDone}/> <span>{props.tasks[1].title}</span></li>*/}
+        {/*<li><input type="checkbox" checked={props.tasks[2].isDone}/> <span>{props.tasks[2].title}</span></li>*/}
+        {/*<li><input type="checkbox" checked={props.tasks[3].isDone}/> <span>{props.tasks[3].title}</span></li>*/}
+      </ul>
+      <div>
+        <button>All</button>
+        <button>Active</button>
+        <button>Completed</button>
+      </div>
+    </div>
+  );
+};
 
-export default Todolist
+export default Todolist;
