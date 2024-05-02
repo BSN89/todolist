@@ -1,26 +1,49 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
+import {Todolist} from './Todolist';
+
+
+//C
+//R(view mode, filter, sort, search, pagination)
+//U
+//D
+
+export type TaskType = {
+    id: number
+    title: string
+    isDone: boolean
+}
+
+export type FilterValuesType = 'all' | 'active' | 'completed'
 
 function App() {
+
+    // Date
+    const todolistTitle: string = "What to learn"
+    const [tasks, setTasks] = useState<TaskType[]>([
+        {id: 1, title: "HTML", isDone: true},
+        {id: 2, title: "JS/TS", isDone: true},
+        {id: 3, title: "React", isDone: false},
+    ])
+
+    //change Logic
+    const removeTask = (taskId: number) => {
+        const nextState = tasks.filter(t => t.id !== taskId)
+        setTasks(nextState)
+
+    }
+
+    // UI Logic
+
+    // UI
     return (
         <div className="App">
-            <div>
-                <h3>What to learn</h3>
-                <div>
-                    <input/>
-                    <button>+</button>
-                </div>
-                <ul>
-                    <li><input type="checkbox" checked={true}/> <span>HTML&CSS</span></li>
-                    <li><input type="checkbox" checked={true}/> <span>JS</span></li>
-                    <li><input type="checkbox" checked={false}/> <span>React</span></li>
-                </ul>
-                <div>
-                    <button>All</button>
-                    <button>Active</button>
-                    <button>Completed</button>
-                </div>
-            </div>
+            <Todolist title={todolistTitle}
+                      tasks={tasks}
+                      removeTask={removeTask}
+                      //changeFilter={changeFilter}
+            />
+            {/* Todolist({title: "What to learn"}) */}
         </div>
     );
 }
