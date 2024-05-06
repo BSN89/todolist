@@ -3,7 +3,7 @@ import { FilterValueType } from './App';
 
 
 type TaskProps = {
-    id: number,
+    id: string,
     title: string,
     isDone: boolean
 }
@@ -11,17 +11,18 @@ type TaskProps = {
 type TodolistProps = {
     title: string
     tasks: TaskProps[]
-    removeTask: (taskId: number) => void
+    removeTask: (taskId: string) => void
     changeFilter: (filterValue: FilterValueType) => void
+    addTask: () => void
 }
 
-export const Todolist = ({title, tasks, removeTask, changeFilter}: TodolistProps) => {
+export const Todolist = ({title, tasks, removeTask, changeFilter, addTask}: TodolistProps) => {
     return (
         <div>
             <h3>{title}</h3>
             <div>
                 <input/>
-                <button>+</button>
+                <button onClick={ () => {addTask()} }>+</button>
             </div>
             <ul>
                 {
