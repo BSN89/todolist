@@ -22,10 +22,9 @@ function App() {
     const changeFilter = (filterValue: FilterValueType) => {
         setFilter(filterValue)
     }
-    const addTask = () => {
-        let newTask = {id: v1(), title: 'New Task', isDone: false}
-        let newTasks = [newTask, ...tasks]
-        setTasks(newTasks)
+    const addTask = (title: string) => {
+        let newTask = {id: v1(), title: title, isDone: false}
+        setTasks([newTask, ...tasks])
     }
 
     let taskForTodolist = tasks
