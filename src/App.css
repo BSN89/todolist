@@ -7,7 +7,25 @@
   margin-right: 50px;
 }
 .todolist {
-  background-color: crimson;
+  background-color: darkgray;
   padding: 20px;
   border-radius: 5px;
+}
+
+
+.task {
+  font-weight: bold;
+}
+.task-done {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+.btn-filter-active{
+  background-color: aqua;
+  border-radius: 3px;
+  border: 2px solid aqua;
+}
+.task-input-error{
+  border: 2px solid red;
+  outline: none;
 }
