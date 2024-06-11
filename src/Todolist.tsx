@@ -1,6 +1,8 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {FilteValueType, TaskType} from './App';
 import {Button} from './Button';
+import {AddItemForm} from "./AddItemForm";
+import {EditableSpan} from "./EditableSpan";
 
 type TodolistProps = {
     todolistId: string
@@ -12,28 +14,13 @@ type TodolistProps = {
     changeTaskStatus: (taskId: string, newStatusValue: boolean, todolistId: string) => void
     filter: FilteValueType
     removeTodolist: (todolistId: string) => void
+    updateTask: (todolistId: string, taskId: string, title: string) => void
+    updateTodolist: (todolistId: string, title: string) => void
 }
 
-export const Todolist = ({title, tasks, removeTask, filteredTask, addTask, changeTaskStatus, filter, todolistId, removeTodolist}: TodolistProps) => {
-    let [taskTitle, setTaskTitle] = useState('')
-    let [error, setError] = useState<string | null>(null)
-    const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setTaskTitle(event.currentTarget.value)
-    }
-    const addTaskHandler = () => {
-        if(taskTitle.trim() !== ''){
-            addTask(taskTitle.trim(), todolistId)
-            setTaskTitle('')
-        }else{
-            setError('Title is required')
-        }
-    }
-    const onKeyUpHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-        setError(null)
-        if (event.key === 'Enter') {
-            addTaskHandler()
-        }
-    }
+export const Todolist = ({title, tasks, removeTask, filteredTask, addTask, changeTaskStatus, filter, todolistId, removeTodolist, updateTask, updateTodolist}: TodolistProps) => {
+
+
     const changeFilterTaskHandler = (filter: FilteValueType) => {
         filteredTask(filter, todolistId)
     }
@@ -41,23 +28,25 @@ export const Todolist = ({title, tasks, removeTask, filteredTask, addTask, chang
         removeTodolist(todolistId)
     }
 
+    const addTasksCallback = () => {
+        addTask(title, todolistId)
+    }
+    const updateTodolistHandler = (title: string) => {
+        updateTodolist(todolistId, title)
+    }
+
     return (
         <div>
 
             <div className={'todolist-title-container'}>
-                <h3>{title}</h3>
+                <h3>
+                    <EditableSpan value={title} onChange={updateTodolistHandler}/>
+                </h3>
                 <Button title={'x'} onClick={removeTodolistHandler}/>
             </div>
 
             <div>
-                <input
-                    value={taskTitle}
-                    onChange={onChangeHandler}
-                    onKeyDown={onKeyUpHandler}
-                    className={error ? 'error' : ''}
-                />
-                <Button title={'+'} onClick={addTaskHandler}/>
-                {error && <div className={"error-message"}>{error}</div>}
+                <AddItemForm addItem={addTasksCallback}/>
             </div>
             <ul>
                 {tasks.length === 0
@@ -68,6 +57,9 @@ export const Todolist = ({title, tasks, removeTask, filteredTask, addTask, chang
                           const newStatusValue = event.currentTarget.checked
                             changeTaskStatus(el.id, newStatusValue, todolistId)
                         }
+                        const changeTaskTitleHandler = (title: string) => {
+                            updateTask(todolistId, el.id, title)
+                        }
 
                             return (
                                 <li key={el.id} className={el.isDone ? 'is-done' : ''}>
@@ -76,7 +68,8 @@ export const Todolist = ({title, tasks, removeTask, filteredTask, addTask, chang
                                         checked={el.isDone}
                                         onChange={changeTaskStatusHandler }
                                     />
-                                    <span>{el.title}</span>
+
+                                    <EditableSpan value={el.title} onChange={changeTaskTitleHandler}/>
                                     <Button onClick={removeTaskHandler}
                                             title={'x'}
                                     />
