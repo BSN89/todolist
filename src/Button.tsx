@@ -12,6 +12,7 @@ export const Button = ({title, onClick, className}: ButtonProps) => {
             className={className}
             onClick={ onClick }>
             {title}
+
         </button>
     );
 };
