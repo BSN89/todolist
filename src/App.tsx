@@ -74,7 +74,7 @@ function App() {
         setTodolists(removeTodolist)
         delete tasks[todolistId]
         setTasks({...tasks})
-        console.log(tasks)
+
     }
     const addTodolist = (title: string) => {
         const todolistId = v1()
